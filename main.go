@@ -15,5 +15,5 @@ func HelloServer(w http.ResponseWriter, r *http.Request) {
 }
 
 func HelloServerLogic(name string) string  {
-    return fmt.Printf("Hello, %s!", name)
+    return fmt.Sprintf("Hello, %s!", name)
 }
