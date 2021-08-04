@@ -12,7 +12,6 @@ pipeline {
 		script {
 			node ('docker') {
 				def stageapp
-				git
 				stageapp = docker.image('golang:1.16-alpine')
 				stageapp.pull()
 				stageapp.inside {
