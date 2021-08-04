@@ -9,8 +9,10 @@ pipeline {
     stages {
 	script {
 		node ('docker') {
+		    def stageapp
+		    stage ('Test Build') {
 			git 
-			def stageapp = docker.image('golang:1.16-alpine')
+			stageapp = docker.image('golang:1.16-alpine')
 			stageapp.pull()
 			stageapp.inside {
 				sh 'mkdir -p /app'
@@ -18,6 +20,7 @@ pipeline {
 				sh 'cp -r ${WORKSPACE}/* /app'
 				sh 'go build -o ./webapp'
 			}
+		    }
 		}
 	}
     }
