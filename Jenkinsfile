@@ -23,7 +23,7 @@ node ('docker') {
             }
       }
 }
-*/
+
 /*        stage('Docker') {         
             environment {
                 // Extract the username and password of our credentials into "DOCKER_CREDENTIALS_USR" and "DOCKER_CREDENTIALS_PSW".
