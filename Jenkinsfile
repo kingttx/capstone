@@ -15,10 +15,10 @@ node ('docker') {
 
       stage('Test') {
           docker.image('golang:1.16-alpine').inside {
+               sh 'apk add build-base'
                sh 'mkdir -p /app'
                sh 'cd /app'
                sh 'cp -r ${WORKSPACE}/go.mod /app'
-               sh 'go mod init'
                sh 'cp -r ${WORKSPACE}/*.go /app'
                sh 'go clean -cache'
                sh 'go test -v -timeout 60s'
