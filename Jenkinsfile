@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build') {   
             // Use golang.
-            agent { docker { image 'golang:1.16-alpine' } }
+            agent { label 'docker' { image 'golang:1.16-alpine' } }
 
             steps {                                           
                 // Create our project directory.
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Test') {
             // Use golang.
-            agent { docker { image 'golang:1.16-alpine' } }
+            agent { label 'docker' { image 'golang:1.16-alpine' } }
 
             steps {                 
                 // Create our project directory.
