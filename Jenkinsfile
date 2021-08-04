@@ -3,15 +3,13 @@
 
 pipeline {
     // Lets Jenkins use Docker for us later.
-    agent {
-	label 'docker'
-    }
+    agent any
 
     // If anything fails, the whole Pipeline stops.
     stages {
         stage('Build') {   
             // Use golang.
-            agent { label 'docker' { image 'golang:1.16-alpine' } }
+            agent { docker { image 'golang:1.16-alpine' } }
 
             steps {                                           
                 // Create our project directory.
@@ -28,7 +26,7 @@ pipeline {
 
         stage('Test') {
             // Use golang.
-            agent { label 'docker' { image 'golang:1.16-alpine' } }
+            agent { docker { image 'golang:1.16-alpine' } }
 
             steps {                 
                 // Create our project directory.
