@@ -7,7 +7,23 @@ pipeline {
 
     // If anything fails, the whole Pipeline stops.
     stages {
-        stage('Build') {   
+	script {
+		node ('docker') {
+			git 
+			def stageapp = docker.image('golang:1.16-alpine')
+			stageapp.pull()
+			stageapp.inside {
+				sh 'mkdir -p /app'
+				sh 'cd /app'
+				sh 'cp -r ${WORKSPACE}/* /app'
+				sh 'go build -o ./webapp'
+			}
+		}
+	}
+    }
+}
+				
+/*        stage('Build') {   
             // Use golang.
             agent { docker { image 'golang:1.16-alpine' } }
 
@@ -45,6 +61,7 @@ pipeline {
         }      
     }
 }
+*/
 /*        stage('Docker') {         
             environment {
                 // Extract the username and password of our credentials into "DOCKER_CREDENTIALS_USR" and "DOCKER_CREDENTIALS_PSW".
