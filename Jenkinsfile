@@ -9,11 +9,13 @@ pipeline {
     stages {
          stage ('Build Test') {
                 steps {
-                        docker.image('golang:1.16-alpine').inside {
+                        step {
+                             docker.image('golang:1.16-alpine').inside {
                                 sh 'mkdir -p /app'
                                 sh 'cd /app'
                                 sh 'cp -r ${WORKSPACE}/* /app'
                                 sh 'go build -o ./webapp'
+                             }
                         }
                 }
           }
