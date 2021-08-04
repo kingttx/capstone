@@ -7,8 +7,8 @@ pipeline {
 
     // If anything fails, the whole Pipeline stops.
     stages {
-	node ('docker') {
-	    stage ('Build Test') {
+	stage ('Build Test') {
+	    node ('docker') {
 	    	steps {
 			docker.image('golang:1.16-alpine').inside {
 				sh 'mkdir -p /app'
