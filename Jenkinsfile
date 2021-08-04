@@ -7,25 +7,26 @@ pipeline {
 
     // If anything fails, the whole Pipeline stops.
     stages {
-	script {
-		node ('docker') {
-		    def stageapp
-		    stage ('Test Build') {
-			git 
-			stageapp = docker.image('golang:1.16-alpine')
-			stageapp.pull()
-			stageapp.inside {
-				sh 'mkdir -p /app'
-				sh 'cd /app'
-				sh 'cp -r ${WORKSPACE}/* /app'
-				sh 'go build -o ./webapp'
+	stage ('Build Test') {
+	    steps {
+		script {
+			node ('docker') {
+				def stageapp
+				git
+				stageapp = docker.image('golang:1.16-alpine')
+				stageapp.pull()
+				stageapp.inside {
+					sh 'mkdir -p /app'
+					sh 'cd /app'
+					sh 'cp -r ${WORKSPACE}/* /app'
+					sh 'go build -o ./webapp'
+				}
 			}
-		    }
 		}
-	}
+	    }
+    	}
     }
-}
-				
+}				
 /*        stage('Build') {   
             // Use golang.
             agent { docker { image 'golang:1.16-alpine' } }
