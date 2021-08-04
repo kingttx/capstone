@@ -7,7 +7,7 @@ pipeline {
 
     // If anything fails, the whole Pipeline stops.
     stages {
-	stage ('Build Test') {
+/*	stage ('Build Test') {
 	    steps {
 		script {
 			node ('docker') {
@@ -25,8 +25,9 @@ pipeline {
 	    }
     	}
     }
-}				
-/*        stage('Build') {   
+}
+*/				
+        stage('Build') {   
             // Use golang.
             agent { docker { image 'golang:1.16-alpine' } }
 
@@ -64,7 +65,7 @@ pipeline {
         }      
     }
 }
-*/
+
 /*        stage('Docker') {         
             environment {
                 // Extract the username and password of our credentials into "DOCKER_CREDENTIALS_USR" and "DOCKER_CREDENTIALS_PSW".
