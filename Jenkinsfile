@@ -18,6 +18,7 @@ node ('docker') {
                sh 'mkdir -p /app'
                sh 'cd /app'
                sh 'cp -r ${WORKSPACE}/go.mod /app'
+               sh 'go mod init'
                sh 'cp -r ${WORKSPACE}/*.go /app'
                sh 'go clean -cache'
                sh 'go test -v -timeout 60s'
