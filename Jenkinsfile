@@ -7,13 +7,15 @@ pipeline {
 
     // If anything fails, the whole Pipeline stops.
     stages {
-         stage ('Build Test') {
+         stage('Build Test') {
                steps {
-                     docker.image('golang:1.16-alpine').inside {
-                           sh 'mkdir -p /app'
-                           sh 'cd /app'
-                           sh 'cp -r ${WORKSPACE}/* /app'
-                           sh 'go build -o ./webapp'
+                     script {
+                           docker.image('golang:1.16-alpine').inside {
+                                sh 'mkdir -p /app'
+                                sh 'cd /app'
+                                sh 'cp -r ${WORKSPACE}/* /app'
+                                sh 'go build -o ./webapp'
+                           }
                      }
                }
           }
