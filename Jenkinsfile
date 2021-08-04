@@ -34,7 +34,7 @@ node('docker') {
 
       stage('Run staging container') {
            sshagent(credentials: ['dd0c4ba0-6705-4613-a807-7a3c53296719']) {
-                sh 'docker run -p 8080:8080 --name webapp-test --detach 008866760928.dkr.ecr.us-east-1.amazonaws.com/tking-capstone:${env.BUILD_ID}'
+                sh "docker run -p 8080:8080 --name webapp-test --detach 008866760928.dkr.ecr.us-east-1.amazonaws.com/tking-capstone:${env.BUILD_ID}"
            }
       }
 }
