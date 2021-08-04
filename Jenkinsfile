@@ -1,23 +1,19 @@
 #!/usr/bin/env groovy
 // The above line is used to trigger correct syntax highlighting.
 
-pipeline {
-    // Lets Jenkins use Docker for us later.
-    // agent { label 'docker' }
-
     // If anything fails, the whole Pipeline stops.
-    node ('docker') {
-         checkout scm
-         stage('Test Build') {
-             docker.image('golang:1.16-alpine').inside {
-                  sh 'mkdir -p /app'
-                  sh 'cd /app'
-                  sh 'cp -r ${WORKSPACE}/* /app'
-                  sh 'go build -o ./webapp'
-             }
+node ('docker') {
+     checkout scm
+     stage('Test Build') {
+         docker.image('golang:1.16-alpine').inside {
+              sh 'mkdir -p /app'
+              sh 'cd /app'
+              sh 'cp -r ${WORKSPACE}/* /app'
+              sh 'go build -o ./webapp'
          }
-    }
+     }
 }
+
 /*				
         stage('Build') {   
             // Use golang.
