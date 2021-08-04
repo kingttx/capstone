@@ -2,7 +2,8 @@
 // The above line is used to trigger correct syntax highlighting.
 
     // If anything fails, the whole Pipeline stops.
-node ('docker') {
+node('docker') {
+     echo "Running ${env.BUILD_ID}"
      checkout scm
      stage('Test Build') {
          docker.image('golang:1.16-alpine').inside {
@@ -22,53 +23,20 @@ node ('docker') {
                sh 'cp -r ${WORKSPACE}/*.go /app'
                sh 'go clean -cache'
                sh 'go test -v -timeout 60s'
-            }
+          }
+      }      
+/*      
+      stage('Push image') {
+          docker.withRegistry('https://008866760928.dkr.ecr.us-east-1.amazonaws.com/tking-capstone', 'ecr:us-east-1:aws-ecr-repo') {
+                def myImage = docker.build('webapp:${env.BUILD_ID}')
+                myImage.push()
+          }
       }
+
+      stage('Run staging container') {
+           sshagent(credentials: ['dd0c4ba0-6705-4613-a807-7a3c53296719']) {
+                sh 'docker run -p 8080:8080 --name webapp-test --detach 008866760928.dkr.ecr.us-east-1.amazonaws.com/tking-capstone/webapp:${env.BUILD_ID}'
+           }
+      }
+*/
 }
-
-/*        stage('Docker') {         
-            environment {
-                // Extract the username and password of our credentials into "DOCKER_CREDENTIALS_USR" and "DOCKER_CREDENTIALS_PSW".
-                // (NOTE 1: DOCKER_CREDENTIALS will be set to "your_username:your_password".)
-                // The new variables will always be YOUR_VARIABLE_NAME + _USR and _PSW.
-                // (NOTE 2: You can't print credentials in the pipeline for security reasons.)
-                DOCKER_CREDENTIALS = credentials('my-docker-credentials-id')
-            }
-
-            steps {                           
-                // Use a scripted pipeline.
-                script {
-                    node ('docker') {
-                        def app
-
-                        stage('Clone repository') {
-                            checkout scm
-                        }
-
-                        stage('Build image') {                            
-                            app = docker.build("${env.DOCKER_CREDENTIALS_USR}/my-project-img")
-                        }
-
-                        stage('Push image') {  
-                            // Use the Credential ID of the Docker Hub Credentials we added to Jenkins.
-                            docker.withRegistry('https://registry.hub.docker.com', 'my-docker-credentials-id') {                                
-                                // Push image and tag it with our build number for versioning purposes.
-                                app.push("${env.BUILD_NUMBER}")                      
-
-                                // Push the same image and tag it as the latest version (appears at the top of our version list).
-                                app.push("latest")
-                            }
-                        }              
-                    }
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            // Clean up our workspace.
-            deleteDir()
-        }
-    }
-}  */ 
