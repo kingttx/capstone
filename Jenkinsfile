@@ -27,7 +27,7 @@ node('docker') {
       }      
       stage('Push image') {
           docker.withRegistry('https://008866760928.dkr.ecr.us-east-1.amazonaws.com/tking-capstone', 'ecr:us-east-1:aws-ecr-repo') {
-                def myImage = docker.build('webapp:${env.BUILD_ID}')
+                def myImage = docker.build("webapp:${env.BUILD_ID}")
                 myImage.push()
           }
       }
