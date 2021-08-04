@@ -8,7 +8,7 @@ node ('docker') {
          docker.image('golang:1.16-alpine').inside {
               sh 'mkdir -p /app'
               sh 'cd /app'
-              sh 'cp -r ${WORKSPACE}/* /app'
+              sh 'cp -r ${WORKSPACE}/*.go /app'
               sh 'go build -o ./webapp'
          }
       }
@@ -17,7 +17,8 @@ node ('docker') {
           docker.image('golang:1.16-alpine').inside {
                sh 'mkdir -p /app'
                sh 'cd /app'
-               sh 'cp -r ${WORKSPACE}/* /app'
+               sh 'cp -r ${WORKSPACE}/go.mod /app'
+               sh 'cp -r ${WORKSPACE}/*.go /app'
                sh 'go clean -cache'
                sh 'go test -v -timeout 60s'
             }
