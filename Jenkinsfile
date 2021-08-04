@@ -11,47 +11,17 @@ node ('docker') {
               sh 'cp -r ${WORKSPACE}/* /app'
               sh 'go build -o ./webapp'
          }
-     }
-}
+      }
 
-/*				
-        stage('Build') {   
-            // Use golang.
-            agent { docker { image 'golang:1.16-alpine' } }
-
-            steps {                                           
-                // Create our project directory.
-                sh 'mkdir -p /app'
-                sh 'cd /app'
-
-                // Copy all files in our Jenkins workspace to our project directory.                
-                sh 'cp -r ${WORKSPACE}/* /app'
-
-                // Build the app.
-                sh 'go build -o ./webapp'               
-            }            
-        }
-
-        stage('Test') {
-            // Use golang.
-            agent { docker { image 'golang:1.16-alpine' } }
-
-            steps {                 
-                // Create our project directory.
-                sh 'mkdir -p /app'
-                sh 'cd /app'
-
-                // Copy all files in our Jenkins workspace to our project directory.                
-                sh 'cp -r ${WORKSPACE}/* /app'
-
-		// Remove cached test results.
-                sh 'go clean -cache'
-
-                // Run Unit Tests. 
-                sh 'go test -v -timeout 60s'
+      stage('Test') {
+          docker.image('golang:1.16-alpine').inside {
+               sh 'mkdir -p /app'
+               sh 'cd /app'
+               sh 'cp -r ${WORKSPACE}/* /app'
+               sh 'go clean -cache'
+               sh 'go test -v -timeout 60s'
             }
-        }      
-    }
+      }
 }
 */
 /*        stage('Docker') {         
